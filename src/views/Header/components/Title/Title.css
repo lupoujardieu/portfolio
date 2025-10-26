@@ -1,0 +1,43 @@
+.title--wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+    color: var(--white);
+    z-index: 1;
+    text-shadow: var(--shadow);
+
+    .title {
+        font-size: 64px;
+        font-weight: 900;
+    }
+
+    .subtitle {
+        position: relative;
+        width: fit-content;
+        font-size: 32px;
+        font-weight: 100;
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            height: 4px;
+            background-color: var(--white);
+            animation: progressTitle 0.9s var(--animation-smooth) both;
+        }
+    }
+}
+
+@keyframes progressTitle {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 60%;
+    }
+}

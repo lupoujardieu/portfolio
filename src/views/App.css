@@ -1,0 +1,10 @@
+.app--wrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primary-color);
+}
+
+.content--wrapper {
+    padding-left: 100px;
+    padding-top: 100px;
+}

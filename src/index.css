@@ -1,0 +1,7 @@
+@import url("styles/reset.css");
+@import url("styles/colors.css");
+@import url("styles/vars.css");
+
+* {
+    font-family: "Bricolage Grotesque";
+}

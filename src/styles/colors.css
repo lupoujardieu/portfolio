@@ -1,0 +1,12 @@
+:root {
+    --primary-color: #0055ff;
+    --monochrome-color-1: #0044cc;
+    --monochrome-color-2: #3377ff;
+    --secondary-color: #ffaa00;
+
+    /** TEXT COLORS **/
+    --heading-text: #1a1a1a;
+
+    /** CONSTANTS **/
+    --white: #fff;
+}
