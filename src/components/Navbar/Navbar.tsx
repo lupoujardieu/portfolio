@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import NavbarMobile from "./NavBarMobile";
+import NavbarMobile from "./NavbarMobile";
 import NavbarSelect from "./NavbarSelect";
 import "./Navbar.css";
 
