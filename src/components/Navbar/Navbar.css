@@ -36,16 +36,6 @@
                 text-transform: uppercase;
                 text-decoration: none;
                 cursor: pointer;
-
-                &:hover::after {
-                    content: "";
-                    position: absolute;
-                    bottom: -15px;
-                    left: 0;
-                    height: 4px;
-                    background-color: var(--white);
-                    animation: progressTitle 0.4s var(--animation-smooth) both;
-                }
             }
 
             &:has(.custom-select) {
@@ -190,14 +180,5 @@
         justify-content: flex-start;
         padding-left: 40px;
         border: none;
-    }
-}
-
-@keyframes progressTitle {
-    0% {
-        width: 0%;
-    }
-    100% {
-        width: 60%;
     }
 }

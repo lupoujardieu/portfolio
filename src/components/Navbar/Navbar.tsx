@@ -17,6 +17,9 @@ const Navbar = () => {
     const burgerLinesRef = useRef<(HTMLDivElement | null)[]>([]);
     const menuRef = useRef<HTMLUListElement>(null);
     const isFirstRenderRef = useRef(true);
+    const linkHoverTweens = useRef<Map<HTMLElement, gsap.core.Tween>>(new Map());
+
+    const [isWrapperAnimated, setIsWrapperAnimated] = useState(false);
 
     const languages = [
         { value: "fr", label: "FR" },
@@ -35,7 +38,12 @@ const Navbar = () => {
                 gsap.fromTo(
                     navbarWrapperRef.current,
                     { scaleY: 0, transformOrigin: "bottom" },
-                    { scaleY: 1, duration: 0.6, ease: "power2.out" },
+                    {
+                        scaleY: 1,
+                        duration: 0.6,
+                        ease: "power2.out",
+                        onComplete: () => setIsWrapperAnimated(true),
+                    },
                 );
             }
         },
@@ -78,7 +86,21 @@ const Navbar = () => {
     // Mobile animations
     useGSAP(
         () => {
-            if (isMobile && burgerLinesRef.current.length > 0) {
+            if (isMobile && isWrapperAnimated && mobileTextRef.current) {
+                gsap.fromTo(
+                    mobileTextRef.current,
+                    { scale: 0 },
+                    {
+                        scale: 1,
+                        duration: 0.4,
+                        ease: "power2.out",
+                        delay: 0.2,
+                        clearProps: "transform",
+                    },
+                );
+            }
+
+            if (isMobile && isWrapperAnimated && burgerLinesRef.current.length > 0) {
                 burgerLinesRef.current.forEach((line, index) => {
                     if (line) {
                         gsap.fromTo(
@@ -88,14 +110,15 @@ const Navbar = () => {
                                 scaleX: 1,
                                 duration: 0.4,
                                 ease: "power2.out",
-                                delay: 0.4 + index * 0.1,
+                                delay: 0.2 + index * 0.1,
+                                clearProps: "transform",
                             },
                         );
                     }
                 });
             }
         },
-        { dependencies: [isMobile], scope: containerRef },
+        { dependencies: [isMobile, isWrapperAnimated], scope: containerRef },
     );
 
     // Dropdown menu animation
@@ -122,6 +145,61 @@ const Navbar = () => {
             }
         },
         { dependencies: [isOpen], scope: containerRef, revertOnUpdate: true },
+    );
+
+    // Link hover animations
+    useGSAP(
+        () => {
+            if (!isMobile && navbarItemsRef.current) {
+                const links = navbarItemsRef.current.querySelectorAll(".navbar--item a");
+
+                links.forEach((link) => {
+                    const afterElement = document.createElement("div");
+                    afterElement.className = "link-after";
+                    afterElement.style.cssText = `
+          position: absolute;
+          bottom: -15px;
+          left: 0;
+          height: 4px;
+          background-color: var(--white);
+          width: 0%;
+        `;
+                    (link as HTMLElement).style.position = "relative";
+                    link.appendChild(afterElement);
+
+                    const handleMouseEnter = () => {
+                        if (linkHoverTweens.current.has(link as HTMLElement)) {
+                            linkHoverTweens.current.get(link as HTMLElement)?.play();
+                        } else {
+                            const tween = gsap.to(afterElement, {
+                                width: "60%",
+                                duration: 0.4,
+                                ease: "power2.out",
+                                paused: true,
+                            });
+                            linkHoverTweens.current.set(link as HTMLElement, tween);
+                            tween.play();
+                        }
+                    };
+
+                    const handleMouseLeave = () => {
+                        const tween = linkHoverTweens.current.get(link as HTMLElement);
+                        if (tween) {
+                            tween.reverse();
+                        }
+                    };
+
+                    link.addEventListener("mouseenter", handleMouseEnter);
+                    link.addEventListener("mouseleave", handleMouseLeave);
+                });
+            }
+
+            return () => {
+                linkHoverTweens.current.forEach((tween) => tween.kill());
+                linkHoverTweens.current.clear();
+            };
+        },
+        { dependencies: [isMobile], scope: containerRef },
     );
 
     useEffect(() => {
