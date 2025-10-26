@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import "./LandingExperience.css";
 import {
     Clock,
@@ -12,7 +12,7 @@ import {
 } from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { useEffect, useState } from "react";
+import gsap from "gsap";
 
 type SectionMesh = Mesh<BufferGeometry, Material>;
 
@@ -42,6 +42,39 @@ const ExperienceScene = ({ isMobile }: ExperienceSceneProps) => {
     const meshCone = useRef<SectionMesh>(null!);
     const sectionMeshes = isMobile ? [meshTorus] : [meshTorus, meshCone];
 
+    // GSAP Animation for torus scale (initial load)
+    useEffect(() => {
+        if (meshTorus.current) {
+            // Start from scale 0
+            meshTorus.current.scale.set(0, 0, 0);
+
+            // Animate to scale 1
+            gsap.to(meshTorus.current.scale, {
+                x: 1,
+                y: 1,
+                z: 1,
+                duration: 1.2,
+                ease: "back.out(1.7)",
+                delay: 0.3,
+            });
+        }
+    }, []);
+
+    // GSAP Animation for position change on resize
+    useEffect(() => {
+        if (meshTorus.current) {
+            const newPosition = isMobile ? [0.1, 0, 0] : [2, 0, -1];
+
+            gsap.to(meshTorus.current.position, {
+                x: newPosition[0],
+                y: newPosition[1],
+                z: newPosition[2],
+                duration: 0.8,
+                ease: "power2.out",
+            });
+        }
+    }, [isMobile]);
+
     /**
      * Animation loop (useFrame)
      */
@@ -67,16 +100,9 @@ const ExperienceScene = ({ isMobile }: ExperienceSceneProps) => {
             <directionalLight color="#ffffff" intensity={3} position={[2, 1, 0]} />
 
             {/* Torus — always shown */}
-            <mesh ref={meshTorus} material={material} position={isMobile ? [0.1, 0, 0] : [-1.2, 0, 0]}>
+            <mesh ref={meshTorus} material={material}>
                 <torusGeometry args={[1, 0.4, 60]} />
             </mesh>
-
-            {/* Cone — only on desktop */}
-            {!isMobile && (
-                <mesh ref={meshCone} material={material} position={[2, 0.4, -1]}>
-                    <coneGeometry args={[1, 2, 32]} />
-                </mesh>
-            )}
 
             <OrbitControls enableZoom={false} />
         </>

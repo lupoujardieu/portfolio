@@ -48,7 +48,7 @@
                 }
             }
 
-            /* Language selector */
+            /** LANGUAGE SELECTOR **/
             &:has(.custom-select) {
                 border: 2px solid var(--white);
                 padding: 0;
