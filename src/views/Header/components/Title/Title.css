@@ -9,35 +9,49 @@
     color: var(--white);
     z-index: 1;
     text-shadow: var(--shadow);
+}
 
-    .title {
-        font-size: 64px;
-        font-weight: 900;
-    }
+.title {
+    font-size: 64px;
+    font-weight: 900;
 
-    .subtitle {
-        position: relative;
-        width: fit-content;
-        font-size: 32px;
-        font-weight: 100;
+    display: flex;
+    flex-wrap: nowrap;
 
-        &::after {
-            content: "";
-            position: absolute;
-            bottom: -15px;
-            left: 0;
-            height: 4px;
-            background-color: var(--white);
-            animation: progressTitle 0.9s var(--animation-smooth) both;
-        }
+    :nth-child(6) {
+        padding-left: 10px;
     }
 }
 
-@keyframes progressTitle {
-    0% {
-        width: 0%;
+.subtitle-container {
+    position: relative;
+    width: fit-content;
+}
+
+.subtitle {
+    min-width: 150px;
+    font-size: 32px;
+    font-weight: 100;
+}
+
+.subtitle-underline {
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    height: 4px;
+    background-color: var(--white);
+    width: 0%;
+}
+
+@media screen {
+}
+
+/** RESPONSIVE **/
+@media (max-width: 768px) {
+    .title {
+        font-size: clamp(2rem, 0.2353rem + 7.8431vw, 4rem);
     }
-    100% {
-        width: 60%;
+    .subtitle {
+        font-size: clamp(1rem, 0.1176rem + 3.9216vw, 2rem);
     }
 }

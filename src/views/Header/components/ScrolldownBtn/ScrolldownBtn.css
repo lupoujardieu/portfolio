@@ -1,0 +1,25 @@
+.scrolldown-btn {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+
+    background: none;
+    border: 2px solid var(--white);
+    padding: 20px 10px;
+
+    color: var(--white);
+    font-size: 18px;
+    text-transform: uppercase;
+
+    transition: all 0.1s var(--animation-smooth);
+
+    &:hover {
+        cursor: pointer;
+        background-color: var(--secondary-color);
+        color: var(--heading-text);
+        border-color: var(--heading-text);
+        box-shadow: 10px 10px 0px -2px var(--heading-text);
+    }
+}

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useLayoutEffect } from "react";
 import "./LandingExperience.css";
 import {
     Clock,
@@ -42,12 +42,16 @@ const ExperienceScene = ({ isMobile }: ExperienceSceneProps) => {
     const meshCone = useRef<SectionMesh>(null!);
     const sectionMeshes = isMobile ? [meshTorus] : [meshTorus, meshCone];
 
+    // Set initial scale to 0 immediately (before paint)
+    useLayoutEffect(() => {
+        if (meshTorus.current) {
+            meshTorus.current.scale.set(0, 0, 0);
+        }
+    }, []);
+
     // GSAP Animation for torus scale (initial load)
     useEffect(() => {
         if (meshTorus.current) {
-            // Start from scale 0
-            meshTorus.current.scale.set(0, 0, 0);
-
             // Animate to scale 1
             gsap.to(meshTorus.current.scale, {
                 x: 1,

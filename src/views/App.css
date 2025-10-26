@@ -8,3 +8,10 @@
     padding-left: 100px;
     padding-top: 100px;
 }
+
+/** RESPONSIVE **/
+@media (max-width: 768px) {
+    .content--wrapper {
+        padding-left: clamp(2.1875rem, -1.3971rem + 15.9314vw, 6.25rem);
+    }
+}

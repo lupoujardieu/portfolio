@@ -1,3 +1,4 @@
+import ScrollDownBtn from "./components/ScrolldownBtn/ScrolldownBtn";
 import LandingExperience from "./components/SideContent/LandingExperience";
 import Title from "./components/Title/Title";
 import "./Header.css";
@@ -7,6 +8,7 @@ const Header = () => {
         <header>
             <Title />
             <LandingExperience />
+            <ScrollDownBtn />
         </header>
     );
 };
