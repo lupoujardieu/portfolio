@@ -1,36 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import NavbarMobile from "./NavBarMobile";
+import NavbarSelect from "./NavbarSelect";
 import "./Navbar.css";
 
 const IS_MOBILE_BREAKPOINT = 768;
 
-const LANGUAGES = [
-    { value: "fr", label: "FR" },
-    { value: "en", label: "EN" },
-];
-
 const Navbar = () => {
     const [isMobile, setIsMobile] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState("FR");
     const [isWrapperAnimated, setIsWrapperAnimated] = useState(false);
 
     const containerRef = useRef<HTMLDivElement>(null);
     const navbarWrapperRef = useRef<HTMLElement>(null);
     const navbarItemsRef = useRef<HTMLDivElement>(null);
     const selectContainerRef = useRef<HTMLDivElement>(null);
-    const mobileTextRef = useRef<HTMLDivElement>(null);
-    const burgerLinesRef = useRef<(HTMLDivElement | null)[]>([]);
-    const menuRef = useRef<HTMLUListElement>(null);
     const linkHoverTweens = useRef<Map<HTMLElement, gsap.core.Tween>>(new Map());
     const isFirstRender = useRef(true);
 
-    /** Handle language selection */
-    const handleSelect = (label: string) => {
-        setSelected(label);
-        setIsOpen(false);
-    };
+    const navbarItems = ["à propos", "projets", "contacts"];
 
     /** Animate navbar wrapper on mount */
     useGSAP(
@@ -74,44 +62,6 @@ const Navbar = () => {
         { dependencies: [isMobile], scope: containerRef },
     );
 
-    /** Mobile animations */
-    useGSAP(
-        () => {
-            if (!isMobile || !isWrapperAnimated) return;
-
-            burgerLinesRef.current.forEach((line, i) => {
-                if (!line) return;
-                gsap.fromTo(
-                    line,
-                    { scaleX: 0, transformOrigin: "left" },
-                    {
-                        scaleX: 1,
-                        duration: 0.4,
-                        ease: "power2.out",
-                        delay: 0.2 + i * 0.1,
-                        clearProps: "transform",
-                    },
-                );
-            });
-        },
-        { dependencies: [isMobile, isWrapperAnimated], scope: containerRef },
-    );
-
-    /** Dropdown animation */
-    useGSAP(
-        () => {
-            if (!menuRef.current) return;
-            gsap.to(menuRef.current, {
-                visibility: isOpen ? "visible" : "hidden",
-                opacity: isOpen ? 1 : 0,
-                y: isOpen ? 0 : -50,
-                duration: 0.2,
-                ease: "power2.out",
-            });
-        },
-        { dependencies: [isOpen], scope: containerRef, revertOnUpdate: true },
-    );
-
     /** Link hover underline animation */
     useGSAP(
         () => {
@@ -127,7 +77,7 @@ const Navbar = () => {
                 const handleEnter = () => {
                     let tween = linkHoverTweens.current.get(link as HTMLElement);
                     if (!tween) {
-                        tween = gsap.to(afterEl, { width: "60%", duration: 0.4, ease: "power2.out", paused: true });
+                        tween = gsap.to(afterEl, { width: "60%", duration: 0.2, ease: "power1.out", paused: false });
                         linkHoverTweens.current.set(link as HTMLElement, tween);
                     }
                     tween.play();
@@ -151,7 +101,6 @@ const Navbar = () => {
     useEffect(() => {
         const checkMobile = () => {
             const newIsMobile = window.innerWidth <= IS_MOBILE_BREAKPOINT;
-            if (newIsMobile !== isMobile) setIsOpen(false);
             setIsMobile(newIsMobile);
         };
 
@@ -166,52 +115,17 @@ const Navbar = () => {
         <div ref={containerRef}>
             <nav className="navbar--wrapper" ref={navbarWrapperRef}>
                 {isMobile ? (
-                    <button className="navbar-mobile--btn">
-                        <div className="navbar-mobile--text" ref={mobileTextRef}>
-                            Menu
-                        </div>
-                        <div className="navbar-mobile--burger">
-                            {[0, 1, 2].map((i) => (
-                                <div
-                                    key={i}
-                                    className="navbar-mobile--burger-line"
-                                    ref={(el) => {
-                                        burgerLinesRef.current[i] = el;
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    </button>
+                    <NavbarMobile isWrapperAnimated={isWrapperAnimated} containerRef={containerRef} />
                 ) : (
                     <div className="navbar--items" ref={navbarItemsRef}>
-                        {["à propos", "projets", "contacts"].map((label) => (
+                        {navbarItems.map((label) => (
                             <div className="navbar--item" key={label}>
                                 <a href="#">{label}</a>
                             </div>
                         ))}
 
                         <div className="navbar--item" ref={selectContainerRef}>
-                            <div className="custom-select">
-                                <button className="select-trigger" onClick={() => setIsOpen(!isOpen)}>
-                                    <span>{selected}</span>
-                                    <img
-                                        className={`arrow ${isOpen ? "open" : ""}`}
-                                        src="/imgs/picker.svg"
-                                        alt="select picker"
-                                    />
-                                </button>
-
-                                <ul className="select-menu" ref={menuRef}>
-                                    {LANGUAGES.filter((lang) => lang.label !== selected).map((lang) => (
-                                        <li
-                                            key={lang.value}
-                                            className="select-option"
-                                            onClick={() => handleSelect(lang.label)}>
-                                            {lang.label}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                            <NavbarSelect containerRef={containerRef} />
                         </div>
                     </div>
                 )}
