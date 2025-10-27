@@ -4,11 +4,6 @@
     background-color: var(--primary-color);
 }
 
-.content--wrapper {
-    padding-left: 100px;
-    padding-top: 100px;
-}
-
 /** RESPONSIVE **/
 @media (max-width: 768px) {
     .content--wrapper {

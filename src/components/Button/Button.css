@@ -1,0 +1,31 @@
+.btn {
+    padding: 20px 10px;
+
+    font-size: 18px;
+    text-transform: uppercase;
+    transition: all 0.1s var(--animation-smooth);
+
+    &.main {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: 2px solid var(--primary-color);
+
+        &:hover {
+            box-shadow: 10px 10px 0px -2px var(--monochrome-color-1);
+        }
+    }
+
+    &.clear {
+        background-color: var(--white);
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+
+        &:hover {
+            box-shadow: 10px 10px 0px -2px var(--monochrome-color-1);
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}

@@ -5,3 +5,7 @@
 * {
     font-family: "Bricolage Grotesque";
 }
+
+html {
+    scroll-behavior: smooth;
+}

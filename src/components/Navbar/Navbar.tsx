@@ -18,7 +18,11 @@ const Navbar = () => {
     const linkHoverTweens = useRef<Map<HTMLElement, gsap.core.Tween>>(new Map());
     const isFirstRender = useRef(true);
 
-    const navbarItems = ["à propos", "projets", "contacts"];
+    const navbarItems = [
+        { label: "à propos", link: "#about-me" },
+        { label: "projets", link: "#" },
+        { label: "contact", link: "#" },
+    ];
 
     /** Animate navbar wrapper on mount */
     useGSAP(
@@ -118,9 +122,9 @@ const Navbar = () => {
                     <NavbarMobile isWrapperAnimated={isWrapperAnimated} containerRef={containerRef} />
                 ) : (
                     <div className="navbar--items" ref={navbarItemsRef}>
-                        {navbarItems.map((label) => (
-                            <div className="navbar--item" key={label}>
-                                <a href="#">{label}</a>
+                        {navbarItems.map((item) => (
+                            <div className="navbar--item" key={item.label}>
+                                <a href={item.link}>{item.label}</a>
                             </div>
                         ))}
 
