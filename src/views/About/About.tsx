@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import Button from "../../components/Button/Button";
 import "./About.css";
 import HorizontalScrollText from "../../components/HorizontalScrollText/HorizontalScrollText";
+import DownloadButton from "../../components/Button/DownloadButton";
 
 const About = () => {
     const blobRef = useRef(null);
@@ -85,7 +86,12 @@ const About = () => {
                     <span>creative developement</span> avec la librairie <span>ThreeJS</span>.
                 </p>
                 <div className="btns--wrapper">
-                    <Button text="Télécharger mon CV" type="main" />
+                    <DownloadButton
+                        text="Télécharger mon CV"
+                        type="main"
+                        attachement="/docs/Lucas_Poujardieu_CV.pdf"
+                        attachementType="pdf"
+                    />
                     <Button text="Mes projets" type="clear" />
                 </div>
             </div>
