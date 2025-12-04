@@ -118,7 +118,7 @@ const ExperienceScene = ({ isMobile }: ExperienceSceneProps) => {
  */
 const LandingExperience = () => {
     const [isMobile, setIsMobile] = useState(false);
-    const IS_MOBILE_VALUE = 768;
+    const IS_MOBILE_VALUE = 1000;
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth <= IS_MOBILE_VALUE);

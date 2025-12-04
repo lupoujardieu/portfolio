@@ -1,6 +1,7 @@
 .about-section {
     position: relative;
-    min-height: 100vh;
+    height: 100vh;
+    min-height: 800px;
     display: flex;
     justify-content: center;
     gap: 100px;
@@ -9,7 +10,8 @@
     flex-wrap: wrap;
 
     .about-experience--wrapper {
-        width: 500px;
+        width: calc(100% - 600px);
+        max-width: 500px;
         height: calc(100vh - 100px);
         display: flex;
         justify-content: center;

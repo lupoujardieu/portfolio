@@ -1,0 +1,22 @@
+.projets-section {
+    position: relative;
+    min-height: 100vh;
+
+    .projets--wrapper {
+        padding-top: 100px;
+
+        .projets-header {
+            height: 20vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+
+            h3 {
+                color: var(--primary-color);
+                font-size: 64px;
+                font-weight: 900;
+                letter-spacing: 1px;
+            }
+        }
+    }
+}

@@ -70,7 +70,7 @@ const About = () => {
     ];
 
     return (
-        <section className="about-section">
+        <section className="about-section" id="about-me">
             <AboutExperience />
 
             <div className="about-text--wrapper" ref={blobRef}>
@@ -96,7 +96,7 @@ const About = () => {
             </div>
 
             <HorizontalScrollText items={scrollItems} speed={20} />
-            <div id="about-me" style={{ visibility: "hidden", position: "absolute", bottom: 0 }}></div>
+            {/* <div  style={{ visibility: "hidden", position: "absolute", bottom: 0 }}></div> */}
         </section>
     );
 };

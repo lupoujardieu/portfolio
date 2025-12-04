@@ -6,6 +6,10 @@
     font-family: "Bricolage Grotesque";
 }
 
-html {
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+    scroll-padding-top: 80px; /* Adjust to your navbar height */
     scroll-behavior: smooth;
 }

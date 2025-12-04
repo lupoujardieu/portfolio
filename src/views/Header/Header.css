@@ -7,3 +7,9 @@ header {
     padding-left: 100px;
     padding-top: 100px;
 }
+
+@media (max-width: 768px) {
+    header {
+        padding-left: clamp(20px, calc(-37.143px + 17.857vw), 100px);
+    }
+}
