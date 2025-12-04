@@ -1,4 +1,9 @@
 .navbar--wrapper {
+    --navbar-color: var(--primary-color);
+    --navbar-border-color: var(--white);
+    --navbar-text-color: var(--white);
+    --navbar-font-family: inherit;
+
     position: fixed;
     top: 0;
     left: 0;
@@ -9,7 +14,16 @@
     justify-content: center;
     gap: 20px;
     z-index: 1000;
-    border-bottom: 4px solid var(--white);
+
+    background-color: var(--navbar-color);
+    border-bottom: 4px solid var(--navbar-border-color);
+    font-family: var(--navbar-font-family);
+    color: var(--color);
+
+    transition:
+        background-color 0.1s var(--animation-smooth),
+        border-color 0.1s var(--animation-smooth),
+        color 0.1s var(--animation-smooth);
 
     .navbar--items {
         width: 100%;
@@ -18,8 +32,6 @@
         align-items: center;
         justify-content: center;
         gap: 20px;
-        background-color: var(--primary-color);
-        color: var(--white);
 
         .navbar--item {
             width: 100px;
@@ -30,7 +42,7 @@
 
             a {
                 position: relative;
-                color: var(--white);
+                color: var(--navbar-text-color);
                 font-size: 16px;
                 letter-spacing: 2px;
                 text-transform: uppercase;
@@ -42,7 +54,7 @@
                     bottom: -15px;
                     left: 0;
                     height: 4px;
-                    background-color: var(--white);
+                    background-color: currentColor;
                     width: 0%;
                     transition: width 0.4s ease;
                 }
@@ -50,7 +62,7 @@
 
             /** LANGUAGE SELECTOR **/
             &:has(.custom-select) {
-                border: 2px solid var(--white);
+                border: 2px solid var(--navbar-border-color);
                 padding: 0;
 
                 &:has(.select-menu[data-open="true"]) {
@@ -67,7 +79,7 @@
                         height: 100%;
                         background-color: transparent;
                         border: none;
-                        color: var(--white);
+                        color: var(--navbar-text-color);
                         font-size: 16px;
                         letter-spacing: 2px;
                         text-transform: uppercase;
@@ -84,6 +96,9 @@
                             height: 2px;
                             transition: transform 0.2s ease;
 
+                            & > path {
+                                fill: var(--navbar-text-color);
+                            }
                             &.open {
                                 transform: rotate(180deg);
                             }
@@ -95,8 +110,8 @@
                         top: 100%;
                         left: -2px;
                         right: 0;
-                        background-color: var(--primary-color);
-                        border: 2px solid var(--white);
+                        background-color: var(--navbar-color);
+                        border: 2px solid var(--navbar-border-color);
                         border-top: none;
                         list-style: none;
                         margin: 0;
@@ -109,7 +124,7 @@
                         transform: translateY(-50px);
 
                         .select-option {
-                            color: var(--white);
+                            color: var(--navbar-text-color);
                             font-size: 16px;
                             letter-spacing: 2px;
                             text-transform: uppercase;
@@ -189,6 +204,7 @@
 /** RESPONSIVE **/
 @media (max-width: 768px) {
     .navbar--wrapper {
+        --navbar-color: transparent !important ;
         justify-content: flex-start;
         padding-left: 40px;
         border: none;

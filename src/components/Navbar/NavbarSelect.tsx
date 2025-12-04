@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { PickerIcon } from "../../assets/Icons";
 
 interface NavbarSelectProps {
     containerRef: React.RefObject<HTMLDivElement | null>;
@@ -42,7 +43,7 @@ const NavbarSelect = ({}: NavbarSelectProps) => {
         <div className="custom-select" ref={selectContainerRef}>
             <button className="select-trigger" onClick={() => setIsOpen(!isOpen)}>
                 <span>{selected}</span>
-                <img className={`arrow ${isOpen ? "open" : ""}`} src="/imgs/picker.svg" alt="select picker" />
+                <PickerIcon className={`arrow ${isOpen ? "open" : ""}`} />
             </button>
 
             <ul className="select-menu" ref={menuRef}>

@@ -4,6 +4,7 @@ import Button from "../../components/Button/Button";
 import "./About.css";
 import HorizontalScrollText from "../../components/HorizontalScrollText/HorizontalScrollText";
 import DownloadButton from "../../components/Button/DownloadButton";
+import AboutExperience from "./components/AboutExperience";
 
 const About = () => {
     const blobRef = useRef(null);
@@ -70,14 +71,12 @@ const About = () => {
 
     return (
         <section className="about-section">
-            <div className="side-img--wrapper">
-                <img src="/imgs/memoji-no-bg.png" alt="memoji" />
-            </div>
+            <AboutExperience />
 
             <div className="about-text--wrapper" ref={blobRef}>
                 <h3>Hello !</h3>
                 <p>
-                    Moi c’est Lucas, un développeur basée en région bordelaise spécialisé dans la{" "}
+                    Moi c’est Lucas, un développeur basé en région bordelaise spécialisé dans la{" "}
                     <span>création d’application Full Stack</span>. J’utilise principalement des technologies comme{" "}
                     <span>React</span>, <span>Symfony</span>, <span>MySQL</span>.
                 </p>
