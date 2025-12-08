@@ -40,7 +40,7 @@ const About = () => {
         "Wordpress",
         "WebToLead Salesforce",
         "SCORM",
-        "Javascript",
+        "JavaScript",
         "TypeScript",
         "React",
         "MUI",
@@ -58,10 +58,10 @@ const About = () => {
         "Grafana",
         "Vaultwarden / Bitwarden",
         "Jenkins",
-        "Macos",
+        "MacOs",
         "Debian",
         "Postman",
-        "PHPStorm",
+        "PhpStorm",
         "Figma",
         "Davinci Resolve",
         "HubSpot",
@@ -91,12 +91,17 @@ const About = () => {
                         attachement="/docs/Lucas_Poujardieu_CV.pdf"
                         attachementType="pdf"
                     />
-                    <Button text="Mes projets" type="clear" />
+                    <Button
+                        text="Mes projets"
+                        type="clear"
+                        onClick={() => {
+                            window.location.href = "#projets";
+                        }}
+                    />
                 </div>
             </div>
 
             <HorizontalScrollText items={scrollItems} speed={20} />
-            {/* <div  style={{ visibility: "hidden", position: "absolute", bottom: 0 }}></div> */}
         </section>
     );
 };

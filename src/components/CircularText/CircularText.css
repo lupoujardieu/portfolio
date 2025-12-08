@@ -1,0 +1,40 @@
+.circular-text--wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.circular-text--wrapper .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* stays centered */
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.circular-text {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+    cursor: pointer;
+    background: transparent;
+}
+
+.circular-text span {
+    position: absolute;
+    background: transparent;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-size: 24px;
+    transition: all 0.5s cubic-bezier(0, 0, 0, 1);
+}

@@ -33,7 +33,7 @@ const Navbar = () => {
 
     const navbarItems = [
         { label: "à propos", link: "#about-me" },
-        { label: "projets", link: "#" },
+        { label: "projets", link: "#projets" },
         { label: "contact", link: "#" },
     ];
 
@@ -233,7 +233,11 @@ const Navbar = () => {
         <div ref={containerRef}>
             <nav className="navbar--wrapper" ref={navbarWrapperRef}>
                 {isMobile ? (
-                    <NavbarMobile isWrapperAnimated={isWrapperAnimated} containerRef={containerRef} />
+                    <NavbarMobile
+                        isWrapperAnimated={isWrapperAnimated}
+                        navbarItems={navbarItems}
+                        containerRef={containerRef}
+                    />
                 ) : (
                     <div className="navbar--items" ref={navbarItemsRef}>
                         {navbarItems.map((item) => (

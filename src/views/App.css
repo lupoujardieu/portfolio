@@ -4,6 +4,22 @@
     background-color: var(--primary-color);
 }
 
+/** ICONS **/
+.hover-icon {
+    & > path {
+        transition: fill 0.1s var(--animation-smooth);
+    }
+
+    &:hover {
+        &.linkedin > path {
+            fill: #0a66c2;
+        }
+        &.youtube > path {
+            fill: #c4302b;
+        }
+    }
+}
+
 /** RESPONSIVE **/
 @media (max-width: 768px) {
     .content--wrapper {

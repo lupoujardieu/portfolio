@@ -139,68 +139,6 @@
     }
 }
 
-/** MOBILE SUPPORT **/
-.navbar-mobile--btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-
-    .navbar-mobile--text {
-        color: var(--white);
-        font-size: 16px;
-        font-weight: 600;
-        transition: all 0.3s var(--animation-smooth);
-        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .navbar-mobile--burger {
-        --max: 50px;
-        width: var(--max);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 10px;
-        transition: all 0.3s var(--animation-smooth);
-
-        .navbar-mobile--burger-line {
-            height: 6px;
-            background-color: var(--white);
-            transition: width 0.3s var(--animation-smooth);
-            box-shadow: var(--shadow);
-            transform-origin: left;
-
-            &:nth-child(1) {
-                width: var(--max);
-            }
-
-            &:nth-child(2) {
-                width: calc(var(--max) * 0.7);
-            }
-
-            &:nth-child(3) {
-                width: calc(var(--max) * 0.4);
-            }
-        }
-    }
-
-    &:hover {
-        .navbar-mobile--text {
-            transform: rotateZ(-90deg);
-        }
-
-        .navbar-mobile--burger {
-            transform: translateX(-15px);
-
-            .navbar-mobile--burger-line {
-                width: var(--max);
-            }
-        }
-    }
-}
-
 /** RESPONSIVE **/
 @media (max-width: 768px) {
     .navbar--wrapper {

@@ -14,7 +14,6 @@ const Title = () => {
     const subtitleRef = useRef<HTMLHeadingElement>(null);
     const underlineRef = useRef<HTMLDivElement>(null);
 
-    const title = "Lucas Poujardieu";
     const subtitle = "FullStack Developer";
 
     useGSAP(
