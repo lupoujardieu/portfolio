@@ -65,16 +65,16 @@ export const MedicActiv: ProjectDto = {
     links: ["https://www.youtube.com/watch?v=XPuEMEibVbM"],
 };
 
-// const Almirall: ProjectDto = {
-//     id: 3,
-//     type: "pro",
-//     title: "Ravivez les couleurs de la vie d'Émilie",
-//     description:
-//         "Un projet réalisé à l'ocassion d'un salon pour le laboratoire Almirall.\n" +
-//         "J'ai réalisé un site \"Ipad first\" prenant part dans un escape game chronométré sur l'impact de l'interleukine 13 dans le déclenchement de l'eczema atopique \n" +
-//         "Ce projet contient un ensemble de quizs et mini-jeux guidant le joueur dans l'expérience",
-//     technos: [{ text: "ReactTS" }, { text: "Vercel" }],
-// };
+const Almirall: ProjectDto = {
+    id: 3,
+    type: "pro",
+    title: "Ravivez les couleurs de la vie d'Émilie",
+    description:
+        "Un projet réalisé à l'ocassion d'un salon pour le laboratoire Almirall.\n" +
+        "J'ai réalisé un site \"Ipad first\" prenant part dans un escape game chronométré sur l'impact de l'interleukine 13 dans le déclenchement de l'eczema atopique \n" +
+        "Ce projet contient un ensemble de quizs et mini-jeux guidant le joueur dans l'expérience",
+    technos: [{ text: "ReactTS" }, { text: "Vercel" }],
+};
 
 // const JJQuiz: ProjectDto = {
 //     id: 4,
@@ -87,34 +87,34 @@ export const MedicActiv: ProjectDto = {
 //     technos: [{ text: "ReactTS" }, { text: "Vercel" }, { text: "Supabase" }],
 // };
 
-// const Astellas: ProjectDto = {
-//     id: 5,
-//     type: "pro",
-//     title: "Vrai ou Chaud",
-//     description:
-//         "Une animation de stand pour le laboratoire Astellas.\n" +
-//         "Le but était de proposer une borne tactile qui propose un ensemble de quiz avec un score et un classement. \n" +
-//         "On a un enregistrement des données liées au numéro RPPS des joueurs et vérifié avec une base de données nationnale de professionels de santé.",
-//     technos: [
-//         { text: "ReactTS" },
-//         { text: "Express" },
-//         { text: "Supabase" },
-//         { text: "Mailjet" },
-//         { text: "Docker" },
-//         { text: "Traefik" },
-//         { text: "Python" },
-//     ],
-// };
+const Astellas: ProjectDto = {
+    id: 5,
+    type: "pro",
+    title: "Vrai ou Chaud",
+    description:
+        "Une animation de stand pour le laboratoire Astellas.\n" +
+        "Le but était de proposer une borne tactile qui propose un ensemble de quiz avec un score et un classement. \n" +
+        "On a un enregistrement des données liées au numéro RPPS des joueurs et vérifié avec une base de données nationnale de professionels de santé.",
+    technos: [
+        { text: "ReactTS" },
+        { text: "Express" },
+        { text: "Supabase" },
+        { text: "Mailjet" },
+        { text: "Docker" },
+        { text: "Traefik" },
+        { text: "Python" },
+    ],
+};
 
-// const ReInvent: ProjectDto = {
-//     id: 6,
-//     type: "pro",
-//     title: "RE-INvent",
-//     description:
-//         "Un support intéractif sur Ipad pour le laboratoire Ipsen sur la thématique du carcinome rénal non à cellules claires dans le cadre d'un escape game. \n" +
-//         "Le but était d'ammener le joueur à résoudre un mystère médical et de l'orienter dans l'ouverture de document physique et la résolution d'énigme.",
-//     technos: [{ text: "ReactTS" }, { text: "Vercel" }],
-// };
+const ReInvent: ProjectDto = {
+    id: 6,
+    type: "pro",
+    title: "RE-INvent",
+    description:
+        "Un support intéractif sur Ipad pour le laboratoire Ipsen sur la thématique du carcinome rénal non à cellules claires dans le cadre d'un escape game. \n" +
+        "Le but était d'ammener le joueur à résoudre un mystère médical et de l'orienter dans l'ouverture de document physique et la résolution d'énigme.",
+    technos: [{ text: "ReactTS" }, { text: "Vercel" }],
+};
 
 // const Survi: ProjectDto = {
 //     id: 7,
