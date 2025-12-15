@@ -71,4 +71,13 @@
     .about-experience--wrapper {
         display: none !important;
     }
+
+    .about-text--wrapper {
+        min-width: 0 !important;
+        margin: 0 20px;
+    }
+
+    .btns--wrapper {
+        justify-content: center;
+    }
 }

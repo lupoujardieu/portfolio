@@ -12,9 +12,10 @@ export interface ProjectDto {
     links?: string[];
 }
 
-const mySFH: ProjectDto = {
+export const mySFH: ProjectDto = {
     id: 1,
     type: "pro",
+    title: "mySimforhealth",
     description:
         "Une plateforme de formation **LMS** (Learning Management System) dédié à la **formation des étudiants, futur soignants et professionels de santé**. \n" +
         "\n\n" +
@@ -39,7 +40,7 @@ const mySFH: ProjectDto = {
     ],
 };
 
-const MedicActiv: ProjectDto = {
+export const MedicActiv: ProjectDto = {
     id: 2,
     type: "pro",
     title: "",
@@ -125,6 +126,3 @@ const MedicActiv: ProjectDto = {
 //         "Cette expérience numérique est traduite en français et en anglais",
 //     technos: [{ text: "ReactTS" }, { text: "Vercel" }, { text: "I18next" }],
 // };
-
-// export const projects: ProjectDto[] = [mySFH, MedicActiv, Almirall, JJQuiz, Astellas, ReInvent, Survi];
-export const projects: ProjectDto[] = [mySFH, MedicActiv];
