@@ -69,6 +69,9 @@ const Projets = () => {
                     <article id="medicactiv" className="bento--item">
                         <img src="/imgs/projets/medicactiv.svg" alt="medicactiv" />
                         <ul className="bottom">
+                            <div className="first--item">
+                                <li>MedicActiv</li>
+                            </div>
                             <li data-tooltip="PHP">
                                 <PhpIcon color="#0055FF" />
                             </li>
