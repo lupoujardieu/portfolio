@@ -12,7 +12,7 @@
             height: 20vh;
             display: flex;
             justify-content: center;
-            align-items: flex-end;
+            align-items: center;
             padding-top: 90px;
 
             h3 {
@@ -250,7 +250,6 @@
                 grid-area: SFH;
                 min-width: 300px;
                 min-height: 300px;
-                /* max-height: 350px; */
 
                 img {
                     width: 100%;
@@ -279,7 +278,7 @@
 
                 blockquote {
                     background-color: #e05441;
-                    color: #ffc529;
+                    color: var(--white);
                     max-height: 500px;
                     justify-content: center !important;
                 }
@@ -321,6 +320,24 @@
                 box-sizing: border-box;
             }
         }
+
+        .project-perso--wrapper {
+            h3 {
+                color: var(--primary-color);
+                font-size: 64px;
+                font-weight: 900;
+                letter-spacing: 1px;
+                text-align: center;
+            }
+            .cards--wrapper {
+                position: relative;
+                height: 500px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding-bottom: 90px;
+            }
+        }
     }
 }
 
@@ -338,6 +355,12 @@
             "mySFH mySFH astellas"
             "almirall almirall almirall"
             "ih reinvent reinvent" !important;
+
+        #medicactiv,
+        #almirall,
+        #reinvent {
+            max-height: 430px !important;
+        }
     }
 }
 
@@ -354,12 +377,6 @@
             "mySFH astellas"
             "almirall astellas"
             "ih reinvent" !important;
-
-        #medicactiv,
-        #almirall,
-        #reinvent {
-            max-height: 100% !important;
-        }
 
         blockquote {
             font-size: 16px !important;

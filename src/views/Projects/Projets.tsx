@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import {
     CakePHPIcon,
@@ -14,9 +14,30 @@ import {
     VercelIcon,
 } from "../../assets/Icons";
 import "./Projets.css";
+import CircularGallery from "../../components/CircularGallery/CircularGallery";
 
 const Projets = () => {
+    const IS_MOBILE_BREAKPOINT = 992;
+    const [isMobile, setIsMobile] = useState(false);
+
     const blockquoteRefs = useRef<Record<string, HTMLQuoteElement | null>>({});
+
+    const items = [
+        { image: "/imgs/perso/navisails.png", text: "NaviSails" },
+        { image: "/imgs/perso/photographic.png", text: "Photographic" },
+        { image: "/imgs/perso/three.png", text: "Découvrir ThreeJS" },
+        { image: "/imgs/perso/portfolio.png", text: "Portfolio" },
+        { image: "/imgs/perso/diadesland.png", text: "Diadesland" },
+    ];
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= IS_MOBILE_BREAKPOINT);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     const handleArticleClick = (articleId: string) => {
         const blockquote = blockquoteRefs.current[articleId];
@@ -60,7 +81,7 @@ const Projets = () => {
         <section className="projets-section" id="projets">
             <div className="projets--wrapper">
                 <div className="projets-header">
-                    <h3>Mes Projets</h3>
+                    <h3>Mes projets pro</h3>
                 </div>
                 <div className="bento--wrapper">
                     <article id="SFH" className="bento--item">
@@ -331,6 +352,20 @@ const Projets = () => {
                     <article id="ih" className="bento--item">
                         <img src="/imgs/projets/ih.svg" alt="ih" />
                     </article>
+                </div>
+
+                <div className="project-perso--wrapper">
+                    <h3>Mes projets perso</h3>
+                    <div className="cards--wrapper">
+                        <CircularGallery
+                            bend={isMobile ? 0 : -3}
+                            items={items}
+                            textColor="#1a1a1a"
+                            borderRadius={0.05}
+                            scrollEase={0.05}
+                            scrollSpeed={2}
+                        />
+                    </div>
                 </div>
             </div>
         </section>
