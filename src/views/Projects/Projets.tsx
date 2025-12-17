@@ -364,6 +364,9 @@ const Projets = () => {
                             borderRadius={0.05}
                             scrollEase={0.05}
                             scrollSpeed={2}
+                            onCardClick={(index, item) => {
+                                console.log(`Card ${index} clicked:`, item.text);
+                            }}
                         />
                     </div>
                 </div>

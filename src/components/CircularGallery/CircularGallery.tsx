@@ -154,6 +154,8 @@ interface MediaProps {
     textColor: string;
     borderRadius?: number;
     font?: string;
+    onClick?: (index: number, item: { image: string; text: string }) => void;
+    item: { image: string; text: string };
 }
 
 class Media {
@@ -172,6 +174,8 @@ class Media {
     textColor: string;
     borderRadius: number;
     font?: string;
+    onClick?: (index: number, item: { image: string; text: string }) => void;
+    item: { image: string; text: string };
     program!: Program;
     plane!: Mesh;
     title!: Title;
@@ -199,6 +203,8 @@ class Media {
         textColor,
         borderRadius = 0,
         font,
+        onClick,
+        item,
     }: MediaProps) {
         this.geometry = geometry;
         this.gl = gl;
@@ -214,6 +220,8 @@ class Media {
         this.textColor = textColor;
         this.borderRadius = borderRadius;
         this.font = font;
+        this.onClick = onClick;
+        this.item = item;
         this.createShader();
         this.createMesh();
         this.createTitle();
@@ -372,6 +380,23 @@ class Media {
         this.widthTotal = this.width * this.length;
         this.x = this.width * this.index;
     }
+
+    // Méthode pour vérifier si un point est dans les limites de la card
+    isPointInside(x: number, y: number, camera: Camera): boolean {
+        const planePos = this.plane.position;
+        const planeScale = this.plane.scale;
+
+        // Convertir les coordonnées écran en coordonnées monde
+        const halfWidth = planeScale.x / 2;
+        const halfHeight = planeScale.y / 2;
+
+        return (
+            x >= planePos.x - halfWidth &&
+            x <= planePos.x + halfWidth &&
+            y >= planePos.y - halfHeight &&
+            y <= planePos.y + halfHeight
+        );
+    }
 }
 
 interface AppConfig {
@@ -382,6 +407,7 @@ interface AppConfig {
     font?: string;
     scrollSpeed?: number;
     scrollEase?: number;
+    onCardClick?: (index: number, item: { image: string; text: string }) => void;
 }
 
 class App {
@@ -405,15 +431,19 @@ class App {
     screen!: { width: number; height: number };
     viewport!: { width: number; height: number };
     raf: number = 0;
+    onCardClick?: (index: number, item: { image: string; text: string }) => void;
 
     boundOnResize!: () => void;
     boundOnWheel!: (e: Event) => void;
     boundOnTouchDown!: (e: MouseEvent | TouchEvent) => void;
     boundOnTouchMove!: (e: MouseEvent | TouchEvent) => void;
     boundOnTouchUp!: () => void;
+    boundOnClick!: (e: MouseEvent) => void;
+    boundOnMouseMove!: (e: MouseEvent) => void;
 
     isDown: boolean = false;
     start: number = 0;
+    hasMoved: boolean = false;
 
     constructor(
         container: HTMLElement,
@@ -425,6 +455,7 @@ class App {
             font = "bold 30px Figtree",
             scrollSpeed = 2,
             scrollEase = 0.05,
+            onCardClick,
         }: AppConfig,
     ) {
         document.documentElement.classList.remove("no-js");
@@ -432,6 +463,7 @@ class App {
         this.scrollSpeed = scrollSpeed;
         this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
         this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
+        this.onCardClick = onCardClick;
         this.createRenderer();
         this.createCamera();
         this.createScene();
@@ -450,6 +482,7 @@ class App {
         });
         this.gl = this.renderer.gl;
         this.gl.clearColor(0, 0, 0, 0);
+        this.gl.canvas.style.cursor = "grab";
         this.container.appendChild(this.renderer.gl.canvas as HTMLCanvasElement);
     }
 
@@ -545,26 +578,46 @@ class App {
                 textColor,
                 borderRadius,
                 font,
+                onClick: this.onCardClick,
+                item: data,
             });
         });
     }
 
     onTouchDown(e: MouseEvent | TouchEvent) {
         this.isDown = true;
+        this.hasMoved = false;
         this.scroll.position = this.scroll.current;
         this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
+
+        // Changer le curseur en grabbing si c'est une souris
+        if ("clientX" in e && !("touches" in e)) {
+            this.gl.canvas.style.cursor = "grabbing";
+        }
     }
 
     onTouchMove(e: MouseEvent | TouchEvent) {
         if (!this.isDown) return;
         const x = "touches" in e ? e.touches[0].clientX : e.clientX;
         const distance = (this.start - x) * (this.scrollSpeed * 0.025);
+
+        // Marquer comme déplacé si le mouvement est significatif
+        if (Math.abs(distance) > 5) {
+            this.hasMoved = true;
+        }
+
         this.scroll.target = (this.scroll.position ?? 0) + distance;
     }
 
     onTouchUp() {
         this.isDown = false;
         this.onCheck();
+
+        // Réinitialiser le curseur après le drag
+        // Le onMouseMove se chargera de mettre le bon curseur
+        if (!this.hasMoved) {
+            this.gl.canvas.style.cursor = "grab";
+        }
     }
 
     onWheel(e: Event) {
@@ -572,6 +625,55 @@ class App {
         const delta = wheelEvent.deltaY || (wheelEvent as any).wheelDelta || (wheelEvent as any).detail;
         this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
         this.onCheckDebounce();
+    }
+
+    onClick(e: MouseEvent) {
+        // Ne pas déclencher le clic si l'utilisateur a fait glisser
+        if (this.hasMoved) return;
+
+        const rect = this.gl.canvas.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+        // Convertir les coordonnées normalisées en coordonnées monde
+        const worldX = (x * this.viewport.width) / 2;
+        const worldY = (y * this.viewport.height) / 2;
+
+        // Vérifier quelle card a été cliquée
+        for (const media of this.medias) {
+            if (media.isPointInside(worldX, worldY, this.camera)) {
+                if (this.onCardClick) {
+                    this.onCardClick(media.index, media.item);
+                }
+                break;
+            }
+        }
+    }
+
+    onMouseMove(e: MouseEvent) {
+        const rect = this.gl.canvas.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+        // Convertir les coordonnées normalisées en coordonnées monde
+        const worldX = (x * this.viewport.width) / 2;
+        const worldY = (y * this.viewport.height) / 2;
+
+        // Vérifier si le curseur est sur une card
+        let isOverCard = false;
+        for (const media of this.medias) {
+            if (media.isPointInside(worldX, worldY, this.camera)) {
+                isOverCard = true;
+                break;
+            }
+        }
+
+        // Changer le curseur
+        if (isOverCard) {
+            this.gl.canvas.style.cursor = "pointer";
+        } else {
+            this.gl.canvas.style.cursor = "grab";
+        }
     }
 
     onCheck() {
@@ -617,6 +719,9 @@ class App {
         this.boundOnTouchDown = this.onTouchDown.bind(this);
         this.boundOnTouchMove = this.onTouchMove.bind(this);
         this.boundOnTouchUp = this.onTouchUp.bind(this);
+        this.boundOnClick = this.onClick.bind(this);
+        this.boundOnMouseMove = this.onMouseMove.bind(this);
+
         window.addEventListener("resize", this.boundOnResize);
         window.addEventListener("mousewheel", this.boundOnWheel);
         window.addEventListener("wheel", this.boundOnWheel);
@@ -626,6 +731,11 @@ class App {
         window.addEventListener("touchstart", this.boundOnTouchDown);
         window.addEventListener("touchmove", this.boundOnTouchMove);
         window.addEventListener("touchend", this.boundOnTouchUp);
+
+        // Ajouter l'écouteur de clic
+        this.gl.canvas.addEventListener("click", this.boundOnClick);
+        // Ajouter l'écouteur de mouvement de souris pour le changement de curseur
+        this.gl.canvas.addEventListener("mousemove", this.boundOnMouseMove);
     }
 
     destroy() {
@@ -639,6 +749,9 @@ class App {
         window.removeEventListener("touchstart", this.boundOnTouchDown);
         window.removeEventListener("touchmove", this.boundOnTouchMove);
         window.removeEventListener("touchend", this.boundOnTouchUp);
+        this.gl.canvas.removeEventListener("click", this.boundOnClick);
+        this.gl.canvas.removeEventListener("mousemove", this.boundOnMouseMove);
+
         if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
             this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas as HTMLCanvasElement);
         }
@@ -653,6 +766,7 @@ interface CircularGalleryProps {
     font?: string;
     scrollSpeed?: number;
     scrollEase?: number;
+    onCardClick?: (index: number, item: { image: string; text: string }) => void;
 }
 
 export default function CircularGallery({
@@ -663,6 +777,7 @@ export default function CircularGallery({
     font = "bold 30px Figtree",
     scrollSpeed = 2,
     scrollEase = 0.05,
+    onCardClick,
 }: CircularGalleryProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -675,10 +790,11 @@ export default function CircularGallery({
             font,
             scrollSpeed,
             scrollEase,
+            onCardClick,
         });
         return () => {
             app.destroy();
         };
-    }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase]);
+    }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, onCardClick]);
     return <div className="circular-gallery" ref={containerRef} />;
 }
