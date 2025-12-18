@@ -1,4 +1,5 @@
 .projets-section {
+    position: relative;
     min-height: 100vh;
 
     .projets--wrapper {
@@ -322,6 +323,7 @@
         }
 
         .project-perso--wrapper {
+            margin: 50px 0;
             h3 {
                 color: var(--primary-color);
                 font-size: 64px;
@@ -335,7 +337,169 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding-bottom: 90px;
+            }
+        }
+    }
+
+    .project-perso--modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(6px);
+        padding: 40px;
+
+        --modal-accent: var(--primary-color);
+
+        .modal--container {
+            position: relative;
+            height: max-content;
+            max-height: 100%;
+            width: 65%;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+
+            .modal--closebtn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                width: 30px;
+                height: 30px;
+
+                border-radius: 50%;
+                padding: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                transform: rotate(45deg);
+                cursor: pointer;
+                background-color: var(--white);
+                z-index: 1000;
+            }
+
+            .modal--header {
+                position: relative;
+                flex: 0 0 auto;
+                height: 400px;
+                background-color: transparent;
+                margin-bottom: 20px;
+
+                display: flex;
+                align-items: center;
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.2);
+                    z-index: 999;
+                }
+
+                .modal-title--wrapper {
+                    z-index: 1000;
+                    background-color: var(--modal-accent);
+                    padding: 40px;
+                    border-top-right-radius: 20px;
+                    border-bottom-right-radius: 20px;
+
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    color: var(--white);
+
+                    h5 {
+                        font-size: 40px;
+                    }
+
+                    p {
+                        font-size: 20px;
+                    }
+                }
+
+                video,
+                img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .modal--content {
+                flex: 1;
+                overflow-y: auto;
+
+                padding: 30px;
+                font-size: 18px;
+                line-height: 1.6;
+                color: var(--text-color, #1a1a1a);
+                overflow-y: scroll;
+
+                .modal--description {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    margin-bottom: 30px;
+
+                    em {
+                        font-size: 15px;
+                        opacity: 0.7;
+                    }
+                }
+
+                .modal--links {
+                    display: flex;
+                    gap: 10px;
+                    margin-top: 20px;
+
+                    .link {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        background-color: var(--secondary-color);
+                        border-radius: 10px;
+                        padding: 5px;
+                        transition: transform 0.2s ease;
+
+                        &:hover {
+                            transform: translateY(-2px);
+                        }
+
+                        svg {
+                            width: 27px;
+                            height: 27px;
+                        }
+                    }
+                }
+
+                .modal--techno {
+                    display: flex;
+                    gap: 10px;
+                    margin-top: 10px;
+
+                    .techno {
+                        background-color: var(--primary-color);
+                        border-radius: 10px;
+                        padding: 5px 10px;
+                        color: var(--white);
+                    }
+                }
             }
         }
     }
@@ -362,6 +526,10 @@
             max-height: 430px !important;
         }
     }
+
+    .modal--container {
+        width: 75% !important;
+    }
 }
 
 @media (max-width: 992px) {
@@ -382,6 +550,10 @@
             font-size: 16px !important;
         }
     }
+
+    .modal--container {
+        width: 85% !important;
+    }
 }
 
 @media (max-width: 768px) {
@@ -399,6 +571,27 @@
             "astellas"
             "almirall"
             "reinvent" !important;
+    }
+
+    .project-perso--modal {
+        padding: 15px;
+
+        &:before {
+            inset: 15px;
+            border-radius: 14px;
+        }
+
+        .modal--container {
+            width: 95% !important;
+        }
+
+        .modal--header {
+            height: 160px;
+        }
+        .modal--content {
+            font-size: 16px;
+            padding: 15px;
+        }
     }
 }
 

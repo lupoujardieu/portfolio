@@ -34,7 +34,7 @@ function getFontSize(font: string): number {
 function createTextTexture(
     gl: GL,
     text: string,
-    font: string = "bold 30px monospace",
+    font: string = 'bold 30px "Bricolage Grotesque"',
     color: string = "black",
 ): { texture: Texture; width: number; height: number } {
     const canvas = document.createElement("canvas");
@@ -187,6 +187,11 @@ class Media {
     speed: number = 0;
     isBefore: boolean = false;
     isAfter: boolean = false;
+    isHovered: boolean = false;
+    targetScale: number = 1;
+    currentScale: number = 1;
+    baseScaleX!: number;
+    baseScaleY!: number;
 
     constructor({
         geometry,
@@ -345,6 +350,12 @@ class Media {
             }
         }
 
+        // Animer le scale en douceur
+        this.targetScale = this.isHovered ? 1.1 : 1;
+        this.currentScale = lerp(this.currentScale, this.targetScale, 0.15);
+        this.plane.scale.x = this.baseScaleX * this.currentScale;
+        this.plane.scale.y = this.baseScaleY * this.currentScale;
+
         this.speed = scroll.current - scroll.last;
         this.program.uniforms.uTime.value += 0.04;
         this.program.uniforms.uSpeed.value = this.speed;
@@ -374,6 +385,11 @@ class Media {
         this.scale = this.screen.height / 1500;
         this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height;
         this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width;
+
+        // Sauvegarder les scales de base pour l'animation hover
+        this.baseScaleX = this.plane.scale.x;
+        this.baseScaleY = this.plane.scale.y;
+
         this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
         this.padding = 2;
         this.width = this.plane.scale.x + this.padding;
@@ -381,8 +397,12 @@ class Media {
         this.x = this.width * this.index;
     }
 
+    setHovered(hovered: boolean) {
+        this.isHovered = hovered;
+    }
+
     // Méthode pour vérifier si un point est dans les limites de la card
-    isPointInside(x: number, y: number, camera: Camera): boolean {
+    isPointInside(x: number, y: number, _camera: Camera): boolean {
         const planePos = this.plane.position;
         const planeScale = this.plane.scale;
 
@@ -452,7 +472,7 @@ class App {
             bend = 1,
             textColor = "#ffffff",
             borderRadius = 0,
-            font = "bold 30px Figtree",
+            font = 'bold 30px "Bricolage Grotesque"',
             scrollSpeed = 2,
             scrollEase = 0.05,
             onCardClick,
@@ -774,7 +794,7 @@ export default function CircularGallery({
     bend = 3,
     textColor = "#ffffff",
     borderRadius = 0.05,
-    font = "bold 30px Figtree",
+    font = 'bold 30px "Bricolage Grotesque"',
     scrollSpeed = 2,
     scrollEase = 0.05,
     onCardClick,

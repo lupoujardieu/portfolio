@@ -1,73 +1,76 @@
-# React + TypeScript + Vite
+# Lucas Poujardieu - Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the source code for my personal portfolio website, built as a responsive single-page application. It leverages a modern tech stack centered around React, TypeScript, and Vite, with a strong focus on creating a dynamic and engaging user experience through interactive 3D graphics and animations.
 
-Currently, two official plugins are available:
+The live version of the portfolio can be viewed at [lucas-poujardieu.fr](https://lucas-poujardieu.fr/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+*   **Interactive 3D Graphics**:
+    *   A dynamic header animation built with React Three Fiber.
+    *   An animated 3D character model (`.fbx`) in the "About" section.
+    *   A circular 3D project gallery for personal projects, implemented with OGL (OGL/GL).
+*   **Advanced Animations**:
+    *   Complex text reveals and scrambling effects using GSAP's `SplitText` and `ScrambleTextPlugin`.
+    *   A responsive navigation bar that changes its theme (colors, borders) based on the scroll position.
+    *   A horizontal scrolling text marquee showcasing a list of technical skills.
+*   **Modern UI/UX**:
+    *   A fully responsive design with a separate, cleanly animated mobile navigation menu.
+    *   A "bento box" style grid for showcasing professional projects.
+    *   Custom, reusable components for buttons, carousels, and circular text effects.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technologies Used
 
-## Expanding the ESLint configuration
+*   **Core**: React, TypeScript, Vite
+*   **3D & Animation**: Three.js, React Three Fiber (`@react-three/fiber`), React Three Drei (`@react-three/drei`), GSAP, OGL
+*   **Styling**: CSS with CSS Variables
+*   **Deployment**: Vercel
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Project Structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The codebase is organized to separate concerns and promote reusability.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+/
+├── public/                 # Static assets (3D models, images, CV)
+├── src/
+│   ├── assets/             # SVG icons as React components
+│   ├── components/         # Reusable components (Button, Navbar, CircularGallery)
+│   ├── styles/             # Global CSS files (variables, resets)
+│   └── views/              # Main sections of the application (Header, About, Projects)
+├── index.html              # Main HTML entry point
+├── main.tsx                # Application root
+└── vite.config.ts          # Vite configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Running the Project Locally
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To run this project on your local machine, follow these steps:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Prerequisites:**
+*   Node.js (v18 or newer)
+*   npm or yarn
+
+**Installation & Setup:**
+
+1.  Clone the repository to your local machine:
+    ```sh
+    git clone https://github.com/lupoujardieu/portfolio.git
+    ```
+
+2.  Navigate into the project directory:
+    ```sh
+    cd portfolio
+    ```
+
+3.  Install the necessary dependencies:
+    ```sh
+    npm install
+    ```
+
+4.  Start the development server:
+    ```sh
+    npm run dev
+    ```
+
+The application will be available at `http://localhost:5173`.

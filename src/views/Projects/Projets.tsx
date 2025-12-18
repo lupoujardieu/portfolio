@@ -3,6 +3,8 @@ import { gsap } from "gsap";
 import {
     CakePHPIcon,
     DockerIcon,
+    EyeIcon,
+    GithubIcon,
     JavaScriptIcon,
     JqueryIcon,
     PhpIcon,
@@ -15,20 +17,55 @@ import {
 } from "../../assets/Icons";
 import "./Projets.css";
 import CircularGallery from "../../components/CircularGallery/CircularGallery";
+import { useGSAP } from "@gsap/react";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
+import rehypeHighlight from "rehype-highlight";
+import { circularGalleryItems, modalDatas, type ModalData } from "../../assets/ModalData";
 
 const Projets = () => {
     const IS_MOBILE_BREAKPOINT = 992;
     const [isMobile, setIsMobile] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalData, setModalData] = useState<ModalData>();
 
     const blockquoteRefs = useRef<Record<string, HTMLQuoteElement | null>>({});
+    const modalRef = useRef<HTMLDivElement | null>(null);
+    const modalContentRef = useRef<HTMLDivElement | null>(null);
 
-    const items = [
-        { image: "/imgs/perso/navisails.png", text: "NaviSails" },
-        { image: "/imgs/perso/photographic.png", text: "Photographic" },
-        { image: "/imgs/perso/three.png", text: "Découvrir ThreeJS" },
-        { image: "/imgs/perso/portfolio.png", text: "Portfolio" },
-        { image: "/imgs/perso/diadesland.png", text: "Diadesland" },
-    ];
+    useGSAP(
+        () => {
+            if (!showModal || !modalRef.current) return;
+
+            // 🔒 lock scroll
+            document.body.style.overflow = "hidden";
+
+            // 🎨 thème dynamique
+            modalRef.current.style.setProperty("--modal-accent", modalData?.accentColor || "var(--primary-color)");
+
+            gsap.fromTo(modalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" });
+
+            gsap.fromTo(
+                modalContentRef.current,
+                { y: 40, scale: 0.96, opacity: 0 },
+                {
+                    y: 0,
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.45,
+                    ease: "power3.out",
+                    delay: 0.1,
+                },
+            );
+
+            // 🧼 cleanup auto useGSAP
+            return () => {
+                document.body.style.overflow = "";
+            };
+        },
+        { dependencies: [showModal, modalData] },
+    );
 
     useEffect(() => {
         const checkMobile = () => {
@@ -74,6 +111,44 @@ const Projets = () => {
                     ease: "power2.out",
                 },
             );
+        }
+    };
+
+    const closeModal = () => {
+        if (!modalRef.current || !modalContentRef.current) {
+            setShowModal(false);
+            return;
+        }
+
+        gsap.to(modalContentRef.current, {
+            y: 40,
+            scale: 0.96,
+            opacity: 0,
+            duration: 0.25,
+            ease: "power2.in",
+        });
+
+        gsap.to(modalRef.current, {
+            opacity: 0,
+            duration: 0.25,
+            ease: "power2.in",
+            delay: 0.05,
+            onComplete: () => {
+                document.body.style.overflow = "";
+                setShowModal(false);
+            },
+        });
+    };
+
+    const getIconLink = (link: string) => {
+        const color = "#1a1a1a";
+        const host = new URL(link).hostname;
+
+        switch (host) {
+            case "github.com":
+                return <GithubIcon color={color} />;
+            default:
+                return <EyeIcon color={color} />;
         }
     };
 
@@ -359,18 +434,72 @@ const Projets = () => {
                     <div className="cards--wrapper">
                         <CircularGallery
                             bend={isMobile ? 0 : -3}
-                            items={items}
+                            items={circularGalleryItems}
                             textColor="#1a1a1a"
                             borderRadius={0.05}
                             scrollEase={0.05}
                             scrollSpeed={2}
-                            onCardClick={(index, item) => {
-                                console.log(`Card ${index} clicked:`, item.text);
+                            onCardClick={(_index, item) => {
+                                setModalData(modalDatas.find((data) => data.title === item.text));
+                                setShowModal(true);
                             }}
                         />
                     </div>
                 </div>
             </div>
+
+            {showModal && (
+                <div className="project-perso--modal" ref={modalRef}>
+                    <div className="modal--container">
+                        <div className="modal--closebtn" onClick={closeModal}>
+                            <PlusIcon color={modalData?.exitColor || "#000"} />
+                        </div>
+
+                        <div className="modal--header">
+                            <div className="modal-title--wrapper">
+                                <h5>{modalData?.title}</h5>
+                                <p>{modalData?.period}</p>
+                            </div>
+
+                            {modalData?.isVideo ? (
+                                <video autoPlay loop>
+                                    <source src={modalData.image} type="video/mp4" />
+                                </video>
+                            ) : (
+                                <img src={modalData?.image} alt={modalData?.title} />
+                            )}
+                        </div>
+
+                        <div className="modal--content" ref={modalContentRef}>
+                            <div className="modal--description">
+                                <Markdown remarkPlugins={[remarkGfm, remarkBreaks]} rehypePlugins={[rehypeHighlight]}>
+                                    {modalData?.description}
+                                </Markdown>
+                            </div>
+
+                            {modalData?.links && (
+                                <div className="modal--links">
+                                    {modalData.links.map((link, index) => (
+                                        <a key={index} className="link" href={link} target="_blank">
+                                            {getIconLink(link)}
+                                        </a>
+                                    ))}
+                                </div>
+                            )}
+
+                            {modalData?.technos && (
+                                <div className="modal--techno">
+                                    {modalData.technos.map((techno, index) => (
+                                        <div key={index} className="techno">
+                                            {techno}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 };
