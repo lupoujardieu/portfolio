@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { EnveloppeIcon, GithubIcon, LinkedinIcon, TwitterIcon } from "../../assets/Icons";
+import { GithubIcon, LinkedinIcon, TwitterIcon } from "../../assets/Icons";
 import "./Footer.css";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
