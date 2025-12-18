@@ -1,0 +1,100 @@
+.contact--section {
+    position: relative;
+    min-height: 200px;
+    background-color: var(--heading-text);
+    color: var(--white);
+    margin-top: 50px;
+
+    .footer--wrapper {
+        .footer--content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 60px 20px;
+
+            .side {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+
+                .social-links {
+                    max-height: 100px;
+                    display: flex;
+                    gap: 10px;
+
+                    .circular-text--wrapper {
+                        transform: translateY(-50px) scale(0.4);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 50px;
+                        width: 100px;
+                    }
+                }
+
+                .copyright {
+                    font-size: 14px;
+                    line-height: 20px;
+                    font-weight: 200;
+                    opacity: 0.7;
+                }
+            }
+
+            .contact {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                font-size: 18px;
+                font-weight: 200;
+
+                a {
+                    position: relative;
+                    color: var(--white);
+                    text-decoration: none;
+                    width: fit-content;
+                    margin: 0 auto;
+
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        left: 0;
+                        bottom: -4px;
+                        width: 100%;
+                        height: 1px;
+                        background-color: var(--white);
+                        transform: scaleX(0);
+                        transform-origin: right;
+                        transition: transform 0.5s ease;
+                    }
+
+                    &:hover::after {
+                        transform: scaleX(1);
+                        transform-origin: left;
+                    }
+                }
+            }
+        }
+
+        .footer--title {
+            height: 100%;
+
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+
+            font-size: 170px;
+            text-transform: uppercase;
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .footer--wrapper {
+        .footer--content {
+            flex-direction: column-reverse;
+            gap: 30px;
+        }
+    }
+}

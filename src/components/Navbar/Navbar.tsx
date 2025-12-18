@@ -54,7 +54,7 @@ const Navbar = () => {
     const navbarItems = [
         { label: "à propos", link: "#about-me" },
         { label: "projets", link: "#projets" },
-        { label: "contact", link: "#" },
+        { label: "contact", link: "#contact" },
     ];
 
     /* ------------------------------------------------------------------ */

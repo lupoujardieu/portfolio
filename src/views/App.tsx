@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar/Navbar";
 import About from "./About/About";
 import "./App.css";
+import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import Projets from "./Projects/Projets";
 
@@ -11,6 +12,7 @@ function App() {
             <Header />
             <About />
             <Projets />
+            <Footer />
         </div>
     );
 }
