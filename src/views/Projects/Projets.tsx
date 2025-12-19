@@ -222,9 +222,6 @@ const Projets = () => {
                             <li data-tooltip="PHP">
                                 <PhpIcon color="#0055FF" />
                             </li>
-                            <li data-tooltip="JavaScript">
-                                <JavaScriptIcon color="#0055FF" />
-                            </li>
                             <li data-tooltip="Symfony">
                                 <SymfonyIcon color="#0055FF" style={{ width: "34px", height: "34px" }} />
                             </li>
@@ -462,7 +459,7 @@ const Projets = () => {
                             </div>
 
                             {modalData?.isVideo ? (
-                                <video autoPlay loop>
+                                <video autoPlay loop playsInline>
                                     <source src={modalData.image} type="video/mp4" />
                                 </video>
                             ) : (

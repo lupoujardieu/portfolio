@@ -34,6 +34,7 @@
                 }
 
                 .copyright {
+                    text-align: center;
                     font-size: 14px;
                     line-height: 20px;
                     font-weight: 200;
@@ -95,6 +96,10 @@
         .footer--content {
             flex-direction: column-reverse;
             gap: 30px;
+        }
+
+        .footer--title {
+            font-size: clamp(6.25rem, 4.1667rem + 10.4167vw, 10.625rem) !important;
         }
     }
 }
