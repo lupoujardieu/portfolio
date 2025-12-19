@@ -69,7 +69,7 @@ const Footer = () => {
                     <div className="footer--nav">
                         <Button
                             text="Retour au début"
-                            type="main"
+                            type="footer"
                             onClick={() => {
                                 window.location.href = "#start";
                             }}

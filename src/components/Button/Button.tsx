@@ -3,7 +3,7 @@ import "./Button.css";
 
 interface ButtonProps {
     text: string;
-    type: "main" | "clear";
+    type: "main" | "clear" | "footer";
     onClick: MouseEventHandler;
 }
 
