@@ -13,7 +13,7 @@ const Footer = () => {
     useGSAP(() => {
         if (titleRef.current) {
             gsap.to(titleRef.current, {
-                x: "-15%",
+                x: "-5%",
                 duration: 10,
                 ease: "none",
                 repeat: -1,
@@ -78,7 +78,7 @@ const Footer = () => {
                 </div>
 
                 <h3 ref={titleRef} className="footer--title">
-                    Contact Contact Contact Contact
+                    Contact Contact Contact Contact Contact Contact Contact Contact Contact Contact
                 </h3>
             </div>
         </footer>

@@ -25,7 +25,7 @@ export const modalDatas: ModalData[] = [
         period: "21 Dec. 2023",
         isVideo: true,
         description:
-            '**NaviSail** est un projet "apprentissage" qui m\'a permis de me familiariser les bases de **ReactJS**.\n' +
+            "**NaviSail** est un projet d'apprentissage qui m'a permis de me familiariser avec **ReactJS**.\n" +
             "C'est un site qui représente une entreprise fictive de fabricant de bateaux. \n" +
             "Tout le contenu est libre de droits et généré via des intelligences artificielles (ChatGPT, DALL-E 2). \n",
         technos: ["ReactTS", "SASS", "Vite", "GitHub Pages"],
