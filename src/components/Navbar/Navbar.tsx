@@ -191,69 +191,38 @@ const Navbar = () => {
     /* ------------------------------------------------------------------ */
     /* Section-based THEMING (robuste avec min-height: 100vh)             */
     /* ------------------------------------------------------------------ */
-    // useGSAP(
-    //     () => {
-    //         const wrapper = navbarWrapperRef.current;
-    //         if (!wrapper) return;
+    function playNavbarAnimation(cfg: Theme) {
+        if (!navbarItemsRef.current) return;
 
-    //         const setTheme = (cfg?: Theme) => {
-    //             const setOrRemove = (name: string, value?: string) => {
-    //                 if (value) wrapper.style.setProperty(name, value);
-    //                 else wrapper.style.removeProperty(name);
-    //             };
+        const tl = gsap.timeline();
+        tl.to(navbarItemsRef.current, { x: "-100%", opacity: 0, duration: 0.3, ease: "power2.in" });
+        tl.add(() => setNavbarTheme(cfg));
+        tl.fromTo(
+            navbarItemsRef.current,
+            { x: "-100%", opacity: 0 },
+            { x: "0%", opacity: 1, duration: 0.8, ease: "power2.out" },
+        );
+    }
 
-    //             setOrRemove("--navbar-color", cfg?.color);
-    //             setOrRemove("--navbar-border-color", cfg?.borderColor);
-    //             setOrRemove("--navbar-text-color", cfg?.textColor);
-    //             setOrRemove("--navbar-font-family", cfg?.fontFamily);
-    //         };
+    function setNavbarTheme(cfg?: Theme) {
+        const wrapper = navbarWrapperRef.current;
+        if (!wrapper) return;
 
-    //         // thème par défaut
-    //         setTheme();
+        const setOrRemove = (name: string, value?: string) => {
+            if (value) wrapper.style.setProperty(name, value);
+            else wrapper.style.removeProperty(name);
+        };
 
-    //         const triggers: ScrollTrigger[] = [];
-
-    //         SECTION_THEMES.forEach((cfg) => {
-    //             const el = document.querySelector(cfg.trigger) as HTMLElement | null;
-    //             if (!el) return;
-
-    //             const st = ScrollTrigger.create({
-    //                 trigger: el,
-    //                 start: "top top+=100",
-    //                 end: "bottom top+=100",
-    //                 onEnter: () => setTheme(cfg),
-    //                 onEnterBack: () => setTheme(cfg),
-    //                 // markers: true, // ← débug si besoin
-    //                 invalidateOnRefresh: true,
-    //             });
-
-    //             triggers.push(st);
-    //         });
-
-    //         return () => triggers.forEach((t) => t.kill());
-    //     },
-    //     { scope: containerRef },
-    // );
+        setOrRemove("--navbar-color", cfg?.color);
+        setOrRemove("--navbar-border-color", cfg?.borderColor);
+        setOrRemove("--navbar-text-color", cfg?.textColor);
+        setOrRemove("--navbar-font-family", cfg?.fontFamily);
+    }
 
     useGSAP(
         () => {
             const wrapper = navbarWrapperRef.current;
             if (!wrapper || !navbarItemsRef.current) return;
-
-            const setTheme = (cfg?: Theme) => {
-                const setOrRemove = (name: string, value?: string) => {
-                    if (value) wrapper.style.setProperty(name, value);
-                    else wrapper.style.removeProperty(name);
-                };
-
-                setOrRemove("--navbar-color", cfg?.color);
-                setOrRemove("--navbar-border-color", cfg?.borderColor);
-                setOrRemove("--navbar-text-color", cfg?.textColor);
-                setOrRemove("--navbar-font-family", cfg?.fontFamily);
-            };
-
-            // thème par défaut
-            setTheme();
 
             const triggers: ScrollTrigger[] = [];
 
@@ -261,37 +230,15 @@ const Navbar = () => {
                 const el = document.querySelector(cfg.trigger) as HTMLElement | null;
                 if (!el) return;
 
-                const st = ScrollTrigger.create({
+                const trigger = ScrollTrigger.create({
                     trigger: el,
                     start: "top top+=100",
                     end: "bottom top+=100",
-                    onEnter: () => {
-                        const tl = gsap.timeline();
-                        // hide
-                        tl.to(navbarItemsRef.current, { x: "-100%", opacity: 0, duration: 0.3, ease: "power2.in" });
-                        // change theme
-                        tl.add(() => setTheme(cfg));
-                        // show with slide in
-                        tl.fromTo(
-                            navbarItemsRef.current,
-                            { x: "-100%", opacity: 0 },
-                            { x: "0%", opacity: 1, duration: 0.8, ease: "power2.out" },
-                        );
-                    },
-                    onEnterBack: () => {
-                        const tl = gsap.timeline();
-                        tl.to(navbarItemsRef.current, { x: "-100%", opacity: 0, duration: 0.3, ease: "power2.in" });
-                        tl.add(() => setTheme(cfg));
-                        tl.fromTo(
-                            navbarItemsRef.current,
-                            { x: "-100%", opacity: 0 },
-                            { x: "0%", opacity: 1, duration: 0.8, ease: "power2.out" },
-                        );
-                    },
-                    invalidateOnRefresh: true,
+                    onEnter: () => playNavbarAnimation(cfg),
+                    onEnterBack: () => playNavbarAnimation(cfg),
+                    invalidateOnRefresh: false,
                 });
-
-                triggers.push(st);
+                triggers.push(trigger);
             });
 
             return () => triggers.forEach((t) => t.kill());
