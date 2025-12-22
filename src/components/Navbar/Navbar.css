@@ -21,8 +21,8 @@
     color: var(--color);
 
     transition:
-        background-color 0.1s var(--animation-smooth),
-        border-color 0.1s var(--animation-smooth),
+        background-color 0.2s var(--animation-smooth),
+        border-color 0.2s var(--animation-smooth),
         color 0.1s var(--animation-smooth);
 
     .navbar--items {
